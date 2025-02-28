@@ -373,7 +373,7 @@ const Charts = () => (
   </div>
 )
 
-export default function Dashboard() {
+export default function AdminDashboard() {
   const [timePeriod, setTimePeriod] = useState("This Week")
   const [sidebarOpen, setSidebarOpen] = useState(false)
 

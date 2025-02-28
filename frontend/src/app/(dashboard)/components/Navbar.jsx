@@ -1,60 +1,36 @@
 "use client";
 
-import {
-  Bell,
-  ChevronDown,
-  ChevronUp,
-  DollarSign,
-  Users,
-  ClipboardList,
-  Package,
-  Briefcase,
-  BarChart2,
-  Home,
-  Menu,
-  X,
-  Settings,
-} from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Bell, ChevronDown, Menu, X, Settings } from "lucide-react";
+import pages from "./data";
 
-const Navbar = () => {
-  const [activeTab, setActiveTab] = useState("reports");
-  const [activeSublink, setActiveSublink] = useState("Overview");
+export default function Navbar() {
+  const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [openSections, setOpenSections] = useState({});
   const [notifications, setNotifications] = useState(3);
 
-  const mainNavItems = [
-    { id: "dashboard", label: "Dashboard", icon: <Home className="w-5 h-5" /> },
-    { id: "sales", label: "Sales & Orders", icon: <DollarSign className="w-5 h-5" /> },
-    { id: "customers", label: "Customers", icon: <Users className="w-5 h-5" /> },
-    { id: "tasks", label: "Tasks & Projects", icon: <ClipboardList className="w-5 h-5" /> },
-    { id: "inventory", label: "Inventory", icon: <Package className="w-5 h-5" /> },
-    { id: "employees", label: "Employees", icon: <Briefcase className="w-5 h-5" /> },
-    { id: "reports", label: "Reports", icon: <BarChart2 className="w-5 h-5" /> },
-  ];
+  // Determine the current section based on pathname
+  const currentSection = Object.keys(pages).find((section) => pathname.startsWith(section)) || Object.keys(pages)[0];
 
-  const secondaryNavItems = {
-    dashboard: ["Overview", "Analytics", "Insights"],
-    sales: ["All Orders", "Invoices", "Quotations", "Subscriptions"],
-    customers: ["All Customers", "Companies", "Segments", "Campaigns"],
-    tasks: ["Board View", "Calendar", "Files", "Time Tracking"],
-    inventory: ["Products", "Categories", "Suppliers", "Warehouses"],
-    employees: ["Directory", "Attendance", "Payroll", "Training"],
-    reports: ["Sales Reports", "Financial Reports", "Inventory Reports", "Custom Reports"],
+  // Find the current link based on exact pathname match
+  const currentLink = Object.values(pages)
+    .flatMap((page) => page.links)
+    .find((link) => link.href === pathname);
+
+  const toggleSection = (section) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
   };
 
   const quickActions = [
-    { label: "New Sale", icon: <DollarSign className="w-4 h-4" /> },
-    { label: "Add Customer", icon: <Users className="w-4 h-4" /> },
+    { label: "New Sale", icon: "DollarSign" },
+    { label: "Add Customer", icon: "Users" },
   ];
-
-  const toggleSection = (id) => {
-    setOpenSections((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
 
   const MobileSidebar = () => (
     <div
@@ -69,42 +45,37 @@ const Navbar = () => {
         </button>
       </div>
       <nav className="mt-4">
-        {mainNavItems.map((item) => (
-          <div key={item.id}>
+        {Object.entries(pages).map(([route, page]) => (
+          <div key={route}>
             <button
               className={`w-full flex items-center space-x-2 px-4 py-3 text-sm font-medium transition-colors ${
-                activeTab === item.id
+                pathname.startsWith(route)
                   ? "text-blue-600 bg-blue-50"
                   : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
               }`}
-              onClick={() => toggleSection(item.id)}
+              onClick={() => toggleSection(route)}
             >
-              {item.icon}
-              <span>{item.label}</span>
-              {openSections[item.id] ? (
-                <ChevronUp className="w-4 h-4 ml-auto" />
+              <page.icon className="w-5 h-5" />
+              <span>{page.title}</span>
+              {openSections[route] ? (
+                <ChevronDown className="w-4 h-4 ml-auto rotate-180" />
               ) : (
                 <ChevronDown className="w-4 h-4 ml-auto" />
               )}
             </button>
-            {openSections[item.id] && (
+            {openSections[route] && (
               <div className="pl-8 space-y-2">
-                {secondaryNavItems[item.id].map((sublink) => (
-                  <button
-                    key={sublink}
+                {page.links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
                     className={`block text-left text-sm w-full px-4 py-2 ${
-                      activeSublink === sublink
-                        ? "text-blue-600 font-medium"
-                        : "text-gray-600 hover:text-gray-800"
+                      pathname === link.href ? "text-blue-600 font-medium" : "text-gray-600 hover:text-gray-800"
                     }`}
-                    onClick={() => {
-                      setActiveTab(item.id);
-                      setActiveSublink(sublink);
-                      setIsSidebarOpen(false);
-                    }}
+                    onClick={() => setIsSidebarOpen(false)}
                   >
-                    {sublink}
-                  </button>
+                    {link.title}
+                  </Link>
                 ))}
               </div>
             )}
@@ -149,7 +120,6 @@ const Navbar = () => {
                 key={idx}
                 className="hidden md:flex items-center space-x-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 px-2 py-1 rounded-md transition-colors"
               >
-                {action.icon}
                 <span className="text-sm font-medium hidden sm:inline">{action.label}</span>
               </button>
             ))}
@@ -189,30 +159,30 @@ const Navbar = () => {
         {/* Navigation Tabs */}
         <div className="hidden lg:flex px-2 md:px-6 items-center justify-between border-t border-gray-200">
           <div className="flex items-center space-x-1">
-            {mainNavItems.map((item) => (
-              <div key={item.id} className="relative group">
-                <button
+            {Object.entries(pages).map(([route, page]) => (
+              <div key={route} className="relative group">
+                <Link
+                  href={route}
                   className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
-                    activeTab === item.id
+                    pathname.startsWith(route)
                       ? "border-blue-600 text-blue-600 bg-blue-50"
                       : "border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300"
                   }`}
-                  onClick={() => setActiveTab(item.id)}
                 >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </button>
-                <div className="absolute left-0 top-full mt-1 hidden group-hover:block bg-white shadow-lg rounded-lg">
-                  {secondaryNavItems[item.id].map((sublink) => (
-                    <button
-                      key={sublink}
+                  <page.icon className="w-5 h-5" />
+                  <span>{page.title}</span>
+                </Link>
+                <div className="absolute left-0 top-full w-full mt-1 hidden group-hover:block bg-white shadow-lg rounded-lg z-10">
+                  {page.links.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
                       className={`block text-left text-sm px-4 py-2 w-full hover:bg-gray-100 ${
-                        activeSublink === sublink ? "text-blue-600 font-medium" : "text-gray-600"
+                        pathname === link.href ? "text-blue-600 font-medium" : "text-gray-600"
                       }`}
-                      onClick={() => setActiveSublink(sublink)}
                     >
-                      {sublink}
-                    </button>
+                      {link.title}
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -222,6 +192,4 @@ const Navbar = () => {
       </header>
     </>
   );
-};
-
-export default Navbar;
+}

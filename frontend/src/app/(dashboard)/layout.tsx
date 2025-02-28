@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../../globals.css";
-import Navbar from "../components/Navbar";
+import "../globals.css";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,16 @@ export default async function RootLayout({
       >
         <Navbar/>
         <main className="bg-gray-50">
-          <div className="mx-auto p-2 md:p-6">{children}</div>
+          <div className={false ?"mx-auto p-2 md:p-6": ""}>
+            <div className="flex bg-gray-50">
+              {/* Sidebar */}
+              <Sidebar/>
+              {/* Main content */}
+              <div className="flex-1 overflow-auto">
+                <div className="p-4 sm:p-8 space-y-6">{children}</div>
+              </div>
+            </div>
+          </div>
         </main>
       </body>
     </html>
