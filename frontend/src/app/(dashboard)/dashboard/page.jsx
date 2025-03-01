@@ -1,23 +1,24 @@
-import AdminDashboard from "../components/AdminDashboard";
-import EmployeeDashboard from "../components/EmployeeDashboard";
-import ManagerDashboard from "../components/ManagerDashboard";
+import AdminDashboard from "./AdminDashboard";
+import EmployeeDashboard from "./EmployeeDashboard";
+import ManagerDashboard from "./ManagerDashboard";
 
 const Dashboard = () => {
-  const role = "manager"; // Replace this with dynamic role logic (e.g., from context or API)
+  const roles = ["admin", "manager", "employee"];
+  const role = roles[0];
 
-  let DashboardComponent = <AdminDashboard />; // Use a different variable name to avoid confusion
+  let DashboardComponent = <AdminDashboard />;
   switch (role) {
-    case "employee":
+    case roles[2]:
       DashboardComponent = <EmployeeDashboard />;
       break;
-    case "manager":
+    case roles[1]:
       DashboardComponent = <ManagerDashboard />;
       break;
     default:
-      DashboardComponent = <AdminDashboard />; // Fallback to AdminDashboard
+      DashboardComponent = <AdminDashboard />;
   }
 
-  return DashboardComponent; // Directly return the JSX element
+  return DashboardComponent;
 };
 
 export default Dashboard;

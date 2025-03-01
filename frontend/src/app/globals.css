@@ -70,3 +70,15 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+html::-webkit-scrollbar {
+  @apply w-1 bg-blue-300
+}
+
+html::-webkit-scrollbar-thumb {
+  @apply rounded-2xl bg-blue-600
+}
