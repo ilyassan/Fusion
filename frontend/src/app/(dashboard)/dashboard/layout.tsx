@@ -11,7 +11,7 @@ export default function Layout({
   }) {
 
     const roles = ["admin", "manager", "employee"];
-    const role = roles[0];
+    const role = roles[1];
 
     return (
       <>
