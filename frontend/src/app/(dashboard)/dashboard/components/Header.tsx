@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Calendar, Bell, Settings, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,16 +11,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 interface HeaderProps {
-  initialTimePeriod?: string;
-  onTimePeriodChange?: (period: string) => void; // Optional callback for parent
+  initialTimePeriod: string;
+  updateFilter: (formData: FormData) => Promise<any>; // Server Action type
 }
 
-export function Header({ initialTimePeriod = "This Week", onTimePeriodChange }: HeaderProps) {
+export function Header({ initialTimePeriod, updateFilter }: HeaderProps) {
   const [timePeriod, setTimePeriod] = useState(initialTimePeriod);
+  const [isPending, startTransition] = useTransition();
 
-  const handleChange = (period: string) => {
-    setTimePeriod(period);
-    if (onTimePeriodChange) onTimePeriodChange(period); // Notify parent if needed
+  const handleTimePeriodChange = (newTimePeriod: string) => {
+    setTimePeriod(newTimePeriod);
+    const formData = new FormData();
+    formData.append("timePeriod", newTimePeriod);
+    startTransition(() => {
+      updateFilter(formData).catch((err) => console.error("Filter update failed:", err));
+    });
   };
 
   return (
@@ -32,7 +37,11 @@ export function Header({ initialTimePeriod = "This Week", onTimePeriodChange }: 
       <div className="flex flex-wrap items-center gap-3">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="bg-white border-gray-200 text-gray-700 hover:bg-gray-50 gap-2">
+            <Button
+              variant="outline"
+              className="bg-white border-gray-200 text-gray-700 hover:bg-gray-50 gap-2"
+              disabled={isPending}
+            >
               <Calendar className="h-4 w-4 text-gray-600" />
               <span className="hidden sm:inline">{timePeriod}</span>
               <ChevronDown className="h-4 w-4 text-gray-600" />
@@ -42,7 +51,7 @@ export function Header({ initialTimePeriod = "This Week", onTimePeriodChange }: 
             {["Today", "This Week", "This Month", "This Quarter", "This Year"].map((period) => (
               <DropdownMenuItem
                 key={period}
-                onSelect={() => handleChange(period)}
+                onSelect={() => handleTimePeriodChange(period)}
                 className="cursor-pointer hover:bg-gray-50 text-gray-700"
               >
                 {period}
