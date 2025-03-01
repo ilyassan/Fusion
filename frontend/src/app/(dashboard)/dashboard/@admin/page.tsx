@@ -1,10 +1,10 @@
 import { DollarSign, Users, ShoppingCart, Activity } from "lucide-react";
-import { Header } from "./components/Header";
-import { MetricCard } from "./components/MetricCard";
-import { TaskList } from "./components/TaskList";
-import { SalesChart } from "./components/SalesChartBar";
-import { RevenueChart } from "./components/RevenueChart";
-import { PieChartComponent } from "./components/PieChart";
+import { Header } from "../components/Header";
+import { MetricCard } from "../components/MetricCard";
+import { TaskList } from "../components/TaskList";
+import { SalesChart } from "../components/SalesChartBar";
+import { RevenueChart } from "../components/RevenueChart";
+import { PieChartComponent } from "../components/PieChart";
 
 // Data (can be fetched server-side with async/await in production)
 const recentTasks = [
