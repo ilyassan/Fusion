@@ -8,9 +8,9 @@ import { RevenueChart } from "../components/RevenueChart";
 import { PieChartComponent } from "../components/PieChart";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import MetricsSkeleton from "../components/MetricsSkeleton";
-import ChartSkeleton from "../components/ChartSkeleton";
-import TableSkeleton from "../components/TableSkeleton";
+import MetricsSkeleton from "../../components/MetricsSkeleton";
+import ChartSkeleton from "../../components/ChartSkeleton";
+import TableSkeleton from "../../components/TableSkeleton";
 
 // Simulated individual data fetching functions
 async function fetchMetrics(timePeriod: string) {
