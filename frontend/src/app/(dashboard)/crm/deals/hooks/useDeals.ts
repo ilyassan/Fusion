@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useDebounce } from "use-debounce";
-import { DealsData, Deal, Filters, Task, Activity } from "../types/DealTypes";
+import { DealsData, Deal, Filters, Activity } from "../types/DealTypes";
 import { format } from "date-fns";
 import { fetchDeals, fetchFilteredDeals } from "../data";
 
@@ -84,29 +84,17 @@ export const useDeals = () => {
     setIsNewDealOpen(false);
   };
 
-  const updateDeal = (dealId: string, updatedData: Partial<Deal>) => {
-    const newDeals = { ...deals };
-    Object.keys(newDeals).forEach((stage) => {
-      newDeals[stage] = newDeals[stage].map((deal) =>
-        deal.id === dealId ? { ...deal, ...updatedData } : deal
-      );
+  const updateDeal = (dealId: string, updatedData: Deal) => {
+    setDeals((prev) => {
+      const newDeals = { ...prev };
+      // Iterate through each stage to find and update the deal
+      Object.keys(newDeals).forEach((stage) => {
+        newDeals[stage] = newDeals[stage].map((deal) =>
+          deal.id === dealId ? { ...deal, ...updatedData } : deal
+        );
+      });
+      return newDeals;
     });
-    setDeals(newDeals);
-  };
-
-  const addTask = (dealId: string, taskData: Partial<Task>) => {
-    const newTask = {
-      title: taskData.title,
-      due: taskData.due,
-      status: "pending",
-    } as Task;
-    const newDeals = { ...deals };
-    Object.keys(newDeals).forEach((stage) => {
-      newDeals[stage] = newDeals[stage].map((deal) =>
-        deal.id === dealId ? { ...deal, tasks: [...deal.tasks, newTask] } : deal
-      );
-    });
-    setDeals(newDeals);
   };
 
   const addActivity = (dealId: string, activityData: Partial<Activity>) => {
@@ -135,7 +123,6 @@ export const useDeals = () => {
     isLoading,
     addNewDeal,
     updateDeal,
-    addTask,
     addActivity,
   };
 };

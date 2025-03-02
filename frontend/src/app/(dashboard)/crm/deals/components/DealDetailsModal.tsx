@@ -1,138 +1,256 @@
-"use client"
+"use client";
 
-import { DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Deal } from "../types/DealTypes"
-import { priorityColors } from "../data"
-import { useDeals } from "../hooks/useDeals"
+import { useEffect, useState, useCallback } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Deal, Priority } from "../types/DealTypes";
+import { priorityColors } from "../data";
+import { DollarSign, Calendar, FileText, Phone, Mail, Users } from "lucide-react";
+import { InputDate } from "@/components/ui/date-input";
 
 type DealDetailsModalProps = {
-  deal: Deal
-}
+  isOpen: boolean;
+  deal: Deal;
+  onClose: () => void;
+  updateDeal: (dealId: string, updatedData: Deal) => void;
+};
 
-export default function DealDetailsModal({ deal }: DealDetailsModalProps) {
-  const { updateDeal, addTask, addActivity } = useDeals()
+
+export default function DealDetailsModal({ isOpen, deal, onClose, updateDeal }: DealDetailsModalProps) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedDeal, setEditedDeal] = useState(deal);
+
+  useEffect(() => {
+    setEditedDeal(deal);
+  }, [deal]);
+
+  const handleSave = useCallback(() => {
+    updateDeal(deal.id, editedDeal);
+    setIsEditing(false);
+  }, [deal.id, editedDeal, updateDeal]);
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = e.target;
+      setEditedDeal((prev) => ({ ...prev, [name]: name === "value" ? Number(value) : value }));
+    },
+    []
+  );
+
+  const handlePriorityChange = useCallback((value: Priority) => {
+    setEditedDeal((prev) => ({ ...prev, priority: value }));
+  }, []);
+
+  const handleDateChange = useCallback((date: Date | undefined) => {
+    setEditedDeal((prev) => ({
+      ...prev,
+      expectedClose: date ? date.toISOString().split("T")[0] : prev.expectedClose,
+    }));
+  }, []);
+
+  const handleAddNote = useCallback(
+    (note: string) => {
+      const updatedNotes = [
+        ...editedDeal.notes,
+        { date: new Date().toISOString().split("T")[0], content: note, author: "User" },
+      ];
+      updateDeal(deal.id, { ...editedDeal, notes: updatedNotes });
+    },
+    [deal.id, editedDeal, updateDeal]
+  );
+
+  const toggleEdit = useCallback(() => setIsEditing((prev) => !prev), []);
 
   return (
-    <DialogContent className="max-w-lg">
-      <DialogHeader>
-        <DialogTitle>Deal Details</DialogTitle>
-      </DialogHeader>
-      <Tabs defaultValue="overview" className="mt-4">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="activity">Activity</TabsTrigger>
-          <TabsTrigger value="tasks">Tasks</TabsTrigger>
-          <TabsTrigger value="notes">Notes</TabsTrigger>
-        </TabsList>
-        <TabsContent value="overview" className="space-y-4">
-          <div className="space-y-4">
-            <div>
-              <h4 className="font-medium">{deal.name}</h4>
-              <p className="text-sm text-gray-500">{deal.customer}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm text-gray-500">Value</label>
-                <p className="font-medium">${deal.value.toLocaleString()}</p>
-              </div>
-              <div>
-                <label className="text-sm text-gray-500">Priority</label>
-                <Badge className={priorityColors[deal.priority]}>{deal.priority}</Badge>
-              </div>
-              <div>
-                <label className="text-sm text-gray-500">Sales Rep</label>
-                <p className="font-medium">{deal.salesRep}</p>
-              </div>
-              <div>
-                <label className="text-sm text-gray-500">Expected Close</label>
-                <p className="font-medium">{deal.expectedClose}</p>
-              </div>
-            </div>
-            <div>
-              <label className="text-sm text-gray-500">Notes</label>
-              <p className="mt-1">{deal.notes}</p>
-            </div>
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" size="sm">
-                Edit Deal
-              </Button>
-              <Button size="sm">Add Activity</Button>
-            </div>
-          </div>
-        </TabsContent>
-        <TabsContent value="activity" className="space-y-4">
-          <div className="flex justify-end">
-            <Button
-              size="sm"
-              onClick={() => addActivity(deal.id, { type: "note", description: "Added new activity" })}
-            >
-              Add Activity
-            </Button>
-          </div>
-          <ScrollArea className="h-[400px] pr-4">
-            {deal.activities.map((activity, index) => (
-              <div key={index} className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded-lg">
-                <div className="min-w-[100px]">
-                  <p className="text-sm text-gray-500">{activity.date}</p>
-                </div>
-                <div>
-                  <p className="font-medium">{activity.description}</p>
-                  <p className="text-sm text-gray-500">Type: {activity.type}</p>
-                </div>
-              </div>
-            ))}
-          </ScrollArea>
-        </TabsContent>
-        <TabsContent value="tasks" className="space-y-4">
-          <div className="flex justify-end">
-            <Button
-              size="sm"
-              onClick={() => addTask(deal.id, { title: "New Task", due: new Date().toISOString().split("T")[0] })}
-            >
-              Add Task
-            </Button>
-          </div>
-          <ScrollArea className="h-[400px] pr-4">
-            {deal.tasks.map((task, index) => (
-              <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg">
-                <div>
-                  <p className="font-medium">{task.title}</p>
-                  <p className="text-sm text-gray-500">Due: {task.due}</p>
-                </div>
-                <Badge
-                  variant={task.status === "completed" ? "default" : "secondary"}
-                  className="cursor-pointer"
-                  onClick={() => {
-                    const newStatus = task.status === "completed" ? "pending" : "completed"
-                    const updatedTasks = [...deal.tasks]
-                    updatedTasks[index] = { ...task, status: newStatus }
-                    updateDeal(deal.id, { tasks: updatedTasks })
-                  }}
-                >
-                  {task.status}
-                </Badge>
-              </div>
-            ))}
-          </ScrollArea>
-        </TabsContent>
-        <TabsContent value="notes" className="space-y-4">
-          <div className="space-y-4">
-            <textarea
-              className="w-full h-32 p-2 border rounded-lg resize-none"
-              placeholder="Add notes about this deal..."
-              value={deal.notes}
-              onChange={(e) => updateDeal(deal.id, { notes: e.target.value })}
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[550px]">
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold">Deal Details</DialogTitle>
+        </DialogHeader>
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 gap-2 mb-4">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="activity">Activity</TabsTrigger>
+            <TabsTrigger value="notes">Notes</TabsTrigger>
+          </TabsList>
+          <ScrollArea className="h-[350px] rounded-md border p-4">
+            <OverviewTab
+              deal={deal}
+              isEditing={isEditing}
+              editedDeal={editedDeal}
+              onEditToggle={toggleEdit}
+              onSave={handleSave}
+              onInputChange={handleInputChange}
+              onPriorityChange={handlePriorityChange}
+              onDateChange={handleDateChange}
             />
-            <div className="flex justify-end">
-              <Button size="sm">Save Notes</Button>
+            <ActivityTab deal={deal} />
+            <NotesTab editedDeal={editedDeal} onAddNote={handleAddNote} />
+          </ScrollArea>
+        </Tabs>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+
+// NoteInput Component
+function NoteInput({ onAddNote }: { onAddNote: (note: string) => void }) {
+  const [newNote, setNewNote] = useState("");
+
+  const handleAddNote = () => {
+    if (newNote.trim()) {
+      onAddNote(newNote.trim());
+      setNewNote("");
+    }
+  };
+
+  return (
+    <div className="mt-4">
+      <Textarea
+        value={newNote}
+        onChange={(e) => setNewNote(e.target.value)}
+        placeholder="Add new note..."
+        className="w-full p-2 border rounded-md"
+        rows={3}
+      />
+      <Button size="sm" className="mt-2 bg-blue-600 hover:bg-blue-700" onClick={handleAddNote}>
+        Add Note
+      </Button>
+    </div>
+  );
+}
+
+// Overview Component
+function OverviewTab({
+  deal,
+  isEditing,
+  editedDeal,
+  onEditToggle,
+  onSave,
+  onInputChange,
+  onPriorityChange,
+  onDateChange,
+}: {
+  deal: Deal;
+  isEditing: boolean;
+  editedDeal: Deal;
+  onEditToggle: () => void;
+  onSave: () => void;
+  onInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onPriorityChange: (value: Priority) => void;
+  onDateChange: (date: Date | undefined) => void;
+}) {
+  return (
+    <TabsContent value="overview" className="space-y-4">
+      {isEditing ? (
+        <div className="space-y-4">
+          <Input name="name" value={editedDeal.name} onChange={onInputChange} placeholder="Deal Name" />
+          <Input name="customer" value={editedDeal.customer} onChange={onInputChange} placeholder="Customer" />
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              name="value"
+              type="number"
+              value={editedDeal.value}
+              onChange={onInputChange}
+              placeholder="Value"
+            />
+            <Select value={editedDeal.priority} onValueChange={onPriorityChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select priority" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="high">High</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+              </SelectContent>
+            </Select>
+            <InputDate date={new Date(editedDeal.expectedClose)} onDateChange={onDateChange} />
+          </div>
+          <div className="flex gap-2 justify-end">
+            <Button variant="outline" size="sm" onClick={onEditToggle}>
+              Cancel
+            </Button>
+            <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={onSave}>
+              Save
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          <div>
+            <h4 className="text-xl font-semibold">{deal.name}</h4>
+            <p className="text-sm text-gray-600">{deal.customer}</p>
+          </div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <DollarSign className="h-5 w-5 text-blue-500" />
+              <span className="font-medium">Value:</span> ${deal.value.toLocaleString()}
+            </div>
+            <div className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-blue-500" />
+              <span className="font-medium">Priority:</span>
+              <Badge className={priorityColors[deal.priority]}>{deal.priority}</Badge>
+            </div>
+            <div className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-blue-500" />
+              <span className="font-medium">Expected Close:</span> {deal.expectedClose}
             </div>
           </div>
-        </TabsContent>
-      </Tabs>
-    </DialogContent>
-  )
+          <Button size="sm" className="bg-blue-600 hover:bg-blue-700" onClick={onEditToggle}>
+            Edit Deal
+          </Button>
+        </div>
+      )}
+    </TabsContent>
+  );
+}
+
+// Activity Component
+function ActivityTab({ deal }: { deal: Deal }) {
+  return (
+    <TabsContent value="activity" className="space-y-4">
+      <div className="space-y-4">
+        {deal.activities.map((activity, index) => (
+          <div key={index} className="flex items-start gap-3 border-b pb-2">
+            {activity.type === "call" && <Phone className="h-5 w-5 text-blue-500" />}
+            {activity.type === "email" && <Mail className="h-5 w-5 text-green-500" />}
+            {activity.type === "meeting" && <Users className="h-5 w-5 text-purple-500" />}
+            <div>
+              <div className="font-medium">{activity.description}</div>
+              <div className="text-sm text-gray-500">{activity.date}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </TabsContent>
+  );
+}
+
+// Notes Component
+function NotesTab({ editedDeal, onAddNote }: { editedDeal: Deal; onAddNote: (note: string) => void }) {
+  return (
+    <TabsContent value="notes">
+        <div className="space-y-4">
+          <div className="space-y-4">
+            {editedDeal.notes.map((note, index) => (
+              <div key={index} className="border-l-4 border-blue-500 pl-3">
+                <div className="text-sm text-gray-500 flex justify-between">
+                  <span>{note.date}</span>
+                  <span className="text-blue-600">@{note.author}</span>
+                </div>
+                <p className="mt-1 whitespace-pre-wrap text-gray-800">{note.content}</p>
+              </div>
+            ))}
+           </div>
+          <NoteInput onAddNote={onAddNote} />
+        </div>
+    </TabsContent>
+  );
 }

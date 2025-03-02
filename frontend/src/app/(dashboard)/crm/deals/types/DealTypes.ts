@@ -3,26 +3,23 @@ export type Deal = {
     name: string
     customer: string
     value: number
-    priority: "high" | "medium" | "low"
+    priority: Priority
     status: string
     salesRep: string
     expectedClose: string
     lastActivity: string
-    notes: string
+    notes: {
+      date: string;
+      content: string;
+      author: string;
+    }[]
     activities: Activity[]
-    tasks: Task[]
   }
   
   export type Activity = {
     date: string
-    type: string
+    type: "call" | "email" | "meeting";
     description: string
-  }
-  
-  export type Task = {
-    title: string
-    due: string
-    status: "pending" | "completed"
   }
   
   export type Filters = {
@@ -35,3 +32,5 @@ export type Deal = {
   export type DealsData = {
     [key: string]: Deal[]
   }
+
+  export type Priority = "high" | "medium" | "low";

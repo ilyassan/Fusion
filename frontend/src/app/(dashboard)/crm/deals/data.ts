@@ -2,84 +2,77 @@
 import { DealsData, Deal, Filters } from "./types/DealTypes"
 
 export const mockDeals: DealsData = {
-  "lead-capture": [
-    {
-      id: "1",
-      name: "Enterprise Software Package",
-      customer: "Tech Corp",
-      value: 75000,
-      priority: "high",
-      status: "active",
-      salesRep: "John Smith",
-      expectedClose: "2024-03-15",
-      lastActivity: "2024-02-28",
-      notes: "Client interested in full suite implementation",
-      activities: [
-        { date: "2024-02-28", type: "call", description: "Initial discovery call" },
-        { date: "2024-02-25", type: "email", description: "Sent product documentation" },
-      ],
-      tasks: [
-        { title: "Send proposal", due: "2024-03-05", status: "pending" },
-        { title: "Schedule follow-up", due: "2024-03-10", status: "completed" },
-      ],
-    },
-    {
-      id: "34",
-      name: "Enterprise Software Package",
-      customer: "Tech Corp",
-      value: 75000,
-      priority: "low",
-      status: "active",
-      salesRep: "John Smith",
-      expectedClose: "2024-03-15",
-      lastActivity: "2024-02-28",
-      notes: "Client interested in full suite implementation",
-      activities: [
-        { date: "2024-02-28", type: "call", description: "Initial discovery call" },
-        { date: "2024-02-25", type: "email", description: "Sent product documentation" },
-      ],
-      tasks: [
-        { title: "Send proposal", due: "2024-03-05", status: "pending" },
-        { title: "Schedule follow-up", due: "2024-03-10", status: "completed" },
-      ],
-    },
-    {
-      id: "55",
-      name: "Enterprise Software Package",
-      customer: "Tech Corp",
-      value: 75000,
-      priority: "high",
-      status: "active",
-      salesRep: "John Smith",
-      expectedClose: "2024-03-15",
-      lastActivity: "2024-02-28",
-      notes: "Client interested in full suite implementation",
-      activities: [
-        { date: "2024-02-28", type: "call", description: "Initial discovery call" },
-        { date: "2024-02-25", type: "email", description: "Sent product documentation" },
-      ],
-      tasks: [
-        { title: "Send proposal", due: "2024-03-05", status: "pending" },
-        { title: "Schedule follow-up", due: "2024-03-10", status: "completed" },
-      ],
-    },
-  ],
-  proposal: [
-    {
-      id: "2",
-      name: "Cloud Migration Project",
-      customer: "Global Industries",
-      value: 120000,
-      priority: "high",
-      status: "active",
-      salesRep: "Sarah Johnson",
-      expectedClose: "2024-04-01",
-      lastActivity: "2024-02-27",
-      notes: "Proposal under review by IT department",
-      activities: [{ date: "2024-02-27", type: "meeting", description: "Technical review meeting" }],
-      tasks: [{ title: "Technical assessment", due: "2024-03-15", status: "pending" }],
-    },
-  ],
+  // "lead-capture": [
+  //   {
+  //     id: "1",
+  //     name: "Enterprise Software Package",
+  //     customer: "Tech Corp",
+  //     value: 75000,
+  //     priority: "high",
+  //     status: "active",
+  //     salesRep: "John Smith",
+  //     expectedClose: "2024-03-15",
+  //     lastActivity: "2024-02-28",
+  //     notes: [],
+  //     activities: [
+  //       { date: "2024-02-28", type: "call", description: "Initial discovery call" },
+  //       { date: "2024-02-25", type: "email", description: "Sent product documentation" },
+  //     ],
+  //   },
+  //   {
+  //     id: "34",
+  //     name: "Enterprise Software Package",
+  //     customer: "Tech Corp",
+  //     value: 75000,
+  //     priority: "low",
+  //     status: "active",
+  //     salesRep: "John Smith",
+  //     expectedClose: "2024-03-15",
+  //     lastActivity: "2024-02-28",
+  //     notes: [],
+  //     activities: [
+  //       { date: "2024-02-28", type: "call", description: "Initial discovery call" },
+  //       { date: "2024-02-25", type: "email", description: "Sent product documentation" },
+  //     ],
+  //   },
+  //   {
+  //     id: "55",
+  //     name: "Enterprise Software Package",
+  //     customer: "Tech Corp",
+  //     value: 75000,
+  //     priority: "high",
+  //     status: "active",
+  //     salesRep: "John Smith",
+  //     expectedClose: "2024-03-15",
+  //     lastActivity: "2024-02-28",
+  //     notes: [],
+  //     activities: [
+  //       { date: "2024-02-28", type: "call", description: "Initial discovery call" },
+  //       { date: "2024-02-25", type: "email", description: "Sent product documentation" },
+  //     ],
+  //   },
+  // ],
+  // proposal: [
+  //   {
+  //     id: "2",
+  //     name: "Cloud Migration Project",
+  //     customer: "Global Industries",
+  //     value: 120000,
+  //     priority: "high",
+  //     status: "active",
+  //     salesRep: "Sarah Johnson",
+  //     expectedClose: "2024-04-01",
+  //     lastActivity: "2024-02-27",
+  //     notes: [
+  //       {
+  //         date: "2024-02-01",
+  //         content: "Interested in our cloud services. Needs a follow up.",
+  //         author: "Jane Smith"
+  //       }
+  //     ],
+  //     activities: [{ date: "2024-02-27", type: "meeting", description: "Technical review meeting" }],
+  //   },
+  // ],
   negotiation: [
     {
       id: "3",
@@ -91,25 +84,14 @@ export const mockDeals: DealsData = {
       salesRep: "Mike Wilson",
       expectedClose: "2024-03-20",
       lastActivity: "2024-02-26",
-      notes: "Negotiating terms and pricing",
+      notes: [
+        {
+          date: "2024-02-01",
+          content: "Interested in our cloud services. Needs a follow up.",
+          author: "Jane Smith"
+        }
+      ],
       activities: [{ date: "2024-02-26", type: "call", description: "Price negotiation call" }],
-      tasks: [{ title: "Revise pricing", due: "2024-03-08", status: "pending" }],
-    },
-  ],
-  "order-confirmation": [
-    {
-      id: "4",
-      name: "Data Analytics Platform",
-      customer: "Retail Solutions",
-      value: 95000,
-      priority: "medium",
-      status: "active",
-      salesRep: "Emma Davis",
-      expectedClose: "2024-03-10",
-      lastActivity: "2024-02-25",
-      notes: "Final contract review in progress",
-      activities: [{ date: "2024-02-25", type: "email", description: "Sent final contract" }],
-      tasks: [{ title: "Contract signing", due: "2024-03-05", status: "pending" }],
     },
   ],
   closing: [
@@ -123,9 +105,8 @@ export const mockDeals: DealsData = {
       salesRep: "Tom Brown",
       expectedClose: "2024-03-05",
       lastActivity: "2024-02-24",
-      notes: "Payment processing",
+      notes: [],
       activities: [{ date: "2024-02-24", type: "email", description: "Payment confirmation sent" }],
-      tasks: [{ title: "Process payment", due: "2024-03-01", status: "completed" }],
     },
   ],
 }
@@ -158,7 +139,7 @@ export const fetchFilteredDeals = async (
       // Apply filters
       filteredDeals = filteredDeals.filter((deal) => {
         const matchesSearch = search
-          ? [deal.name, deal.customer, deal.salesRep, deal.notes]
+          ? [deal.name, deal.customer]
               .some((field) => field.toLowerCase().includes(search.toLowerCase()))
           : true;
 

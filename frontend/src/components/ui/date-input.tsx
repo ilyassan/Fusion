@@ -11,7 +11,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 interface InputDateProps {
-  date?: Date | null;
+  date?: Date | string | null;
   onDateChange: (date: Date | undefined) => void;
   placeholder?: string;
   width?: string;
@@ -46,7 +46,7 @@ export function InputDate({
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
-          selected={date || undefined}
+          selected={new Date(date ? date : "") || undefined}
           onSelect={onDateChange}
           disabled={disabled}
           initialFocus

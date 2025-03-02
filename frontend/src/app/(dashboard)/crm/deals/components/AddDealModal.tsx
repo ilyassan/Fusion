@@ -10,6 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Deal } from "../types/DealTypes"
 import { format } from "date-fns"
 import { useState } from "react"
+import { Textarea } from "@/components/ui/textarea"
 
 type AddDealModalProps = {
   isOpen: boolean
@@ -32,7 +33,13 @@ export default function AddDealModal({ isOpen, setIsOpen, addNewDeal }: AddDealM
       value: Number(formData.value),
       priority: formData.priority as "high" | "medium" | "low",
       expectedClose: formData.expectedClose ? format(formData.expectedClose, "yyyy-MM-dd") : "",
-      notes: formData.notes,
+      notes: [
+        {
+            author: "User",
+            content: formData.notes,
+            date: "2025-02-01",
+        }
+      ],
       name: `${formData.customer} Deal`, // Placeholder, adjust as needed
       salesRep: "Unassigned", // Default value, adjust as needed
       status: "active",
@@ -109,8 +116,8 @@ export default function AddDealModal({ isOpen, setIsOpen, addNewDeal }: AddDealM
           </div>
           <div>
             <label className="text-sm font-medium">Notes</label>
-            <textarea
-              className="w-full h-24 p-2 border rounded-lg resize-none"
+            <Textarea
+              className="w-full h-24 p-2 rounded-lg resize-none"
               placeholder="Add any initial notes..."
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}

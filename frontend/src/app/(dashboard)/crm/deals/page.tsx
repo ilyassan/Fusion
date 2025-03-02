@@ -6,13 +6,13 @@ import DealsBoard from "./components/DealsBoard";
 import { useDeals } from "./hooks/useDeals";
 
 export default function DealsPipeline() {
-  const { deals, setDeals, filters, setFilters, isNewDealOpen, setIsNewDealOpen, addNewDeal, isLoading } = useDeals();
+  const { deals, setDeals, filters, setFilters, isNewDealOpen, setIsNewDealOpen, addNewDeal, isLoading, updateDeal } = useDeals();
 
   return (
     <div className="space-y-6 min-h-full">
       <DealsHeader isNewDealOpen={isNewDealOpen} setIsNewDealOpen={setIsNewDealOpen} addNewDeal={addNewDeal} />
       <DealsFilters filters={filters} setFilters={setFilters} />
-      <DealsBoard isLoading={isLoading} deals={deals} setDeals={setDeals} />
+      <DealsBoard updateDeal={updateDeal} isLoading={isLoading} deals={deals} setDeals={setDeals} />
     </div>
   );
 }
