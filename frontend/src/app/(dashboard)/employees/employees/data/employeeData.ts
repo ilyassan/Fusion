@@ -1,4 +1,4 @@
-import { Employee } from "../../(overview)/types/employeeTypes";
+import { Employee } from "../../types/employeeTypes";
 
 let mockEmployees: Employee[] = [
   { id: 1, firstName: "John", lastName: "Doe", email: "john@example.com", phoneNumber: "123-456-7890", salary: 50000, role: "Employee" },

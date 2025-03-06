@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useDebounce } from "use-debounce";
-import { Employee } from "../../(overview)/types/employeeTypes";
+import { Employee } from "../../types/employeeTypes";
 
 interface UseEmployeesProps {
   itemsPerPage: number;

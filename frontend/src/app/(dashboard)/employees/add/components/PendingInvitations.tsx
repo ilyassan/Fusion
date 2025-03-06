@@ -6,7 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Clock, AlertCircle } from "lucide-react";
 import { InvitationPagination } from "./InvitationPagination";
-import { Invitation } from "../../(overview)/types/employeeTypes";
+import { Invitation } from "../../types/employeeTypes";
 import Skeleton from "@/app/(dashboard)/components/Skeleton";
 
 interface PendingInvitationsProps {

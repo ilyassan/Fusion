@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Invitation } from "../../(overview)/types/employeeTypes";
+import { Invitation } from "../../types/employeeTypes";
 
 interface UseInvitationsProps {
   itemsPerPage: number;

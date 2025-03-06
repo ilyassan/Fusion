@@ -1,4 +1,4 @@
-import { Employee, Invitation, WorkerTypes, EmployeeGrowth, DepartmentDistribution } from "../types/employeeTypes";
+import { Employee, Invitation, WorkerTypes, EmployeeGrowth, DepartmentDistribution } from "../../types/employeeTypes";
 
 const mockEmployees: Employee[] = [
   { id: 1, firstName: "John", lastName: "Doe", email: "john@example.com", phoneNumber: "123-456-7890", salary: 50000, role: "Employee" },

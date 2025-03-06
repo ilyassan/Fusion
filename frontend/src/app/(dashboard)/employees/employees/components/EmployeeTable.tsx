@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
-import { Employee } from "../../(overview)/types/employeeTypes";
+import { Employee } from "../../types/employeeTypes";
 import Skeleton from "@/app/(dashboard)/components/Skeleton";
 
 interface EmployeeTableProps {
