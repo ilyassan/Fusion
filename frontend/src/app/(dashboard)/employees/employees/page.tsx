@@ -10,7 +10,7 @@ import { DeleteEmployeeModal } from "./components/DeleteEmployeeModal";
 import { UpdateEmployeeModal } from "./components/UpdateEmployeeModal";
 import { useEmployees } from "./hooks/useEmployees";
 import { fetchEmployees, updateEmployee, deleteEmployee } from "./data/employeeData";
-import { Employee } from "../(overview)/types/employeeTypes";
+import { Employee } from "../types/employeeTypes";
 
 export default function EmployeesPage() {
   const {

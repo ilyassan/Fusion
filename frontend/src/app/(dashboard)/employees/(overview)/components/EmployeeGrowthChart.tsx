@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
-import { EmployeeGrowth } from "../types/employeeTypes";
+import { EmployeeGrowth } from "../../types/employeeTypes";
 
 interface EmployeeGrowthChartProps {
   data: EmployeeGrowth[];

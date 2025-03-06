@@ -1,4 +1,4 @@
-import { Invitation } from "../../(overview)/types/employeeTypes";
+import { Invitation } from "../../types/employeeTypes";
 
 const mockInvitations: Invitation[] = [
   { id: 1, email: "alice@example.com", role: "Employee", sentAt: "2023-05-15" },

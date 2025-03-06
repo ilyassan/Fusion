@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Employee } from "../../(overview)/types/employeeTypes";
+import { Employee } from "../../types/employeeTypes";
 
 interface UpdateEmployeeModalProps {
   isOpen: boolean;
