@@ -79,7 +79,7 @@ async function updateFilter(formData: FormData) {
 }
 
 export default async function EmployeeDashboard({ searchParams }: { searchParams?: { timePeriod?: string } }) {
-  const timePeriod = searchParams?.timePeriod || "This Week";
+  const timePeriod = (await searchParams)?.timePeriod || "This Week";
 
   return (
     <div className="bg-gray-50 min-h-screen">
