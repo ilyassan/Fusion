@@ -126,9 +126,9 @@ import {
           href: "/sales-orders",
         },
         {
-          title: "Sales Reports",
+          title: "Sales",
           icon: FileText,
-          href: "/sales-orders/reports",
+          href: "/sales-orders/sales",
         },
         {
           title: "Orders",
