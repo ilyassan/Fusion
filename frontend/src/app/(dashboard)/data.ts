@@ -14,6 +14,9 @@ import {
   TrendingUp,
   Home,
   Briefcase,
+  Package,
+  Warehouse,
+  ArrowLeftRight,
 } from "lucide-react";
 
 interface LinkItem {
@@ -83,6 +86,19 @@ const pages: Pages = {
       { title: "Sales Forecast & Insights", icon: TrendingUp, href: "/sales-orders/insights" },
     ],
     defaultHref: "/sales-orders",
+  },
+  "/inventory": {
+    title: "Inventory",
+    icon: BarChart3,
+    links: [
+      { title: "Inventory Overview", icon: BarChart3, href: "/inventory" },
+      { title: "Products Management", icon: Package, href: "/inventory/products" },
+      { title: "Services Management", icon: Boxes, href: "/inventory/services" },
+      { title: "Suppliers & Purchases", icon: Receipt, href: "/inventory/suppliers" },
+      { title: "Warehouses & Stock", icon: Warehouse, href: "/inventory/warehouses" },
+      { title: "Stock Movements", icon: ArrowLeftRight, href: "/inventory/movements" },
+    ],
+    defaultHref: "/inventory",
   },
 };
 
