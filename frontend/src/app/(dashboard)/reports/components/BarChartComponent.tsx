@@ -16,9 +16,10 @@ import {
     bars: { dataKey: string; fill: string; name: string }[];
     xAxisKey: string;
     xAxisProps?: { angle?: number; textAnchor?: string; height?: number };
+    stackId?: string;
   }
   
-  export function BarChartComponent({ data, bars, xAxisKey, xAxisProps = {} }: BarChartProps) {
+  export function BarChartComponent({ data, bars, xAxisKey, xAxisProps = {}, stackId }: BarChartProps) {
     return (
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={data}>
@@ -28,7 +29,13 @@ import {
           <Tooltip />
           <Legend />
           {bars.map((bar) => (
-            <Bar key={bar.dataKey} dataKey={bar.dataKey} fill={bar.fill} name={bar.name} />
+            <Bar
+              key={bar.dataKey}
+              dataKey={bar.dataKey}
+              fill={bar.fill}
+              name={bar.name}
+              stackId={stackId}
+            />
           ))}
         </BarChart>
       </ResponsiveContainer>
