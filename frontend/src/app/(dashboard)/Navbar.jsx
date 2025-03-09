@@ -57,13 +57,15 @@ export default function Navbar() {
             >
               <page.icon className="w-5 h-5" />
               <span>{page.title}</span>
-              {openSections[route] ? (
-                <ChevronDown className="w-4 h-4 ml-auto rotate-180" />
-              ) : (
-                <ChevronDown className="w-4 h-4 ml-auto" />
+              {page.links.length > 0 && (
+                openSections[route] ? (
+                  <ChevronDown className="w-4 h-4 ml-auto rotate-180" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 ml-auto" />
+                )
               )}
             </button>
-            {openSections[route] && (
+            {openSections[route] && page.links.length > 0 && (
               <div className="pl-8 space-y-2">
                 {page.links.map((link) => (
                   <Link
@@ -162,7 +164,7 @@ export default function Navbar() {
             {Object.entries(pages).map(([route, page]) => (
               <div key={route} className="relative group">
                 <Link
-                  href={route}
+                  href={page.defaultHref} // Use defaultHref instead of route
                   className={`flex items-center space-x-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                     pathname.startsWith(route)
                       ? "border-blue-600 text-blue-600 bg-blue-50"
@@ -172,19 +174,21 @@ export default function Navbar() {
                   <page.icon className="w-5 h-5" />
                   <span>{page.title}</span>
                 </Link>
-                <div className="absolute left-0 top-full w-full mt-1 hidden group-hover:block bg-white shadow-lg rounded-lg z-10">
-                  {page.links.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className={`block text-left text-sm px-4 py-2 w-full hover:bg-gray-100 ${
-                        pathname === link.href ? "text-blue-600 font-medium" : "text-gray-600"
-                      }`}
-                    >
-                      {link.title}
-                    </Link>
-                  ))}
-                </div>
+                {page.links.length > 0 && (
+                  <div className="absolute left-0 top-full w-full mt-1 hidden group-hover:block bg-white shadow-lg rounded-lg z-10">
+                    {page.links.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className={`block text-left text-sm px-4 py-2 w-full hover:bg-gray-100 ${
+                          pathname === link.href ? "text-blue-600 font-medium" : "text-gray-600"
+                        }`}
+                      >
+                        {link.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>
