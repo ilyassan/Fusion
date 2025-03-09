@@ -11,7 +11,7 @@ import { ChartSkeleton } from "./skeletons/ChartSkeleton";
 import { updateFilter } from "./actions/updateFilter";
 
 export default async function InventoryReportsDashboard({ searchParams }: { searchParams?: { dateRange?: string } }) {
-  const dateRange = searchParams?.dateRange || "6months";
+  const dateRange = (await searchParams)?.dateRange || "6months";
 
   return (
     <div className="w-full space-y-6">
