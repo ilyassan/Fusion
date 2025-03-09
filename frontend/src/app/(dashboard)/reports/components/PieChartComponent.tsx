@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 interface PieChartProps {
-  data: { name: string; revenue: number; color: string }[];
+  data: { name: string; [key: string]: any; color: string }[];
   dataKey: string;
   nameKey: string;
   innerRadius?: number;
