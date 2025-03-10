@@ -5,6 +5,6 @@ import { redirect } from "next/navigation";
 
 export async function updateFilter(formData: FormData) {
   const dateRange = formData.get("dateRange") as string;
-  revalidatePath("/reports");
-  redirect(`/reports?dateRange=${encodeURIComponent(dateRange)}`);
+  revalidatePath("/reports/sales");
+  redirect(`/reports/sales?dateRange=${encodeURIComponent(dateRange)}`);
 }
