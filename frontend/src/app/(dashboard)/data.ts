@@ -74,7 +74,7 @@ const pages: Pages = {
       { title: "Expenses", icon: Receipt, href: "/reports/expenses" },
       { title: "Revenues", icon: DollarSign, href: "/reports/revenues" },
     ],
-    defaultHref: "/reports/sales", // Default landing page for "Reports"
+    defaultHref: "/reports/sales",
   },
   "/sales-orders": {
     title: "Sales & Orders",
@@ -99,6 +99,16 @@ const pages: Pages = {
       { title: "Stock Movements", icon: ArrowLeftRight, href: "/inventory/movements" },
     ],
     defaultHref: "/inventory",
+  },
+  "/tasks": {
+    title: "Tasks",
+    icon: BarChart3,
+    links: [
+      { title: "Tasks Overview", icon: BarChart3, href: "/tasks" },
+      { title: "Board", icon: Warehouse, href: "/tasks/board" },
+      { title: "Stock Movements", icon: ArrowLeftRight, href: "/tasks/my" },
+    ],
+    defaultHref: "/tasks",
   },
 };
 
