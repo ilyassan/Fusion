@@ -14,7 +14,7 @@ type TasksListProps = {
 
 export default function TasksList({ tasks, isLoading }: TasksListProps) {
   return (
-    <Card className="shadow-sm">
+    <Card className="shadow-sm overflow-hidden">
       <CardHeader className="bg-gray-50 border-b">
         <CardTitle className="flex items-center gap-2 text-lg">
           <ClipboardList className="h-5 w-5 text-gray-500" />
