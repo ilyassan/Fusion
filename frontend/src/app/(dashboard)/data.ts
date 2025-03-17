@@ -17,6 +17,14 @@ import {
   Package,
   Warehouse,
   ArrowLeftRight,
+  ClipboardIcon,
+  ClipboardList,
+  Columns,
+  List,
+  Box,
+  Grid,
+  Settings,
+  Truck,
 } from "lucide-react";
 
 interface LinkItem {
@@ -89,12 +97,12 @@ const pages: Pages = {
   },
   "/inventory": {
     title: "Inventory",
-    icon: BarChart3,
+    icon: Box,
     links: [
-      { title: "Inventory Overview", icon: BarChart3, href: "/inventory" },
+      { title: "Inventory Overview", icon: BarChart2, href: "/inventory" },
       { title: "Products Management", icon: Package, href: "/inventory/products" },
-      { title: "Services Management", icon: Boxes, href: "/inventory/services" },
-      { title: "Suppliers & Purchases", icon: Receipt, href: "/inventory/suppliers" },
+      { title: "Services Management", icon: Settings, href: "/inventory/services" },
+      { title: "Suppliers & Purchases", icon: Truck, href: "/inventory/suppliers" },
       { title: "Warehouses & Stock", icon: Warehouse, href: "/inventory/warehouses" },
       { title: "Stock Movements", icon: ArrowLeftRight, href: "/inventory/movements" },
     ],
@@ -102,11 +110,11 @@ const pages: Pages = {
   },
   "/tasks": {
     title: "Tasks",
-    icon: BarChart3,
+    icon: ClipboardList,
     links: [
-      { title: "Tasks Overview", icon: BarChart3, href: "/tasks" },
-      { title: "Board", icon: Warehouse, href: "/tasks/board" },
-      { title: "Stock Movements", icon: ArrowLeftRight, href: "/tasks/my" },
+      { title: "Tasks Overview", icon: BarChart, href: "/tasks" },
+      { title: "Board", icon: Columns, href: "/tasks/board" },
+      { title: "My Tasks", icon: List, href: "/tasks/my" },
     ],
     defaultHref: "/tasks",
   },
