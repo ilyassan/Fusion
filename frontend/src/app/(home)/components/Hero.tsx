@@ -1,13 +1,8 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import { PlayCircle } from "lucide-react";
-import Image from "next/image";
-import DashboardImage from "@/../public/Dashboard.svg";
-import { useState } from "react";
-import Skeleton from "@/app/(dashboard)/components/Skeleton";
+import HeroImage from "./HeroImage";
 
 export default function Hero() {
-  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-blue-50 to-purple-50">
@@ -45,16 +40,7 @@ export default function Hero() {
             </div>
           </div>
           <div className="relative w-full max-h-[500px] hidden sm:block">
-            {isLoading && (
-              <Skeleton className="absolute inset-0 w-full h-full rounded-lg shadow-xl" />
-            )}
-            <Image
-              src={DashboardImage}
-              onLoad={() => setIsLoading(false)}
-              alt="Fusion ERP Dashboard"
-              className={`w-full h-full object-contain rounded-lg shadow-xl transition-opacity duration-300 ${isLoading ? "opacity-0" : "opacity-100"}`}
-              loading="lazy"
-            />
+            <HeroImage/>
           </div>
         </div>
       </div>
