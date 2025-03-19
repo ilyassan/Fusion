@@ -13,7 +13,7 @@ const PaymentHeader = () => {
         <div>
           <Link 
             href="/#pricing" 
-            scroll={false}
+            scroll={true}
             className="flex items-center text-sm sm:text-base text-gray-600 hover:text-gray-900"
           >
             <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
